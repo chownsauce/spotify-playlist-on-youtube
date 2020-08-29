@@ -7,7 +7,7 @@ from src.spotify.exceptions import SpotifyAPIUnsuccessfulRequestException
 
 
 class BaseClient:
-	BASE_URL = 'https://accounts.spotify.com'
+	BASE_URL = 'https://accounts.spotify.com/api'
 
 
 class TokenClient(BaseClient):
@@ -19,8 +19,8 @@ class TokenClient(BaseClient):
 
 	@property
 	def encoded_client(self):
-		data = f'{self.client_id}:{self.client_secret}'.encode('ascii')
-		return base64.b64encode(data)
+		data = f'{self.client_id}:{self.client_secret}'.encode()
+		return base64.b64encode(data).decode()
 
 	@property
 	def header(self):
@@ -37,6 +37,7 @@ class TokenClient(BaseClient):
 		body = {'grant_type': 'client_credentials'}
 
 		response = requests.post(self.url, data=body, headers=self.header)
+		
 		if response.status_code !=  http_status_code.OK:
 			raise SpotifyAPIUnsuccessfulRequestException(
 				f'Spotify API Error: {response.status_code} - {response.json()}')

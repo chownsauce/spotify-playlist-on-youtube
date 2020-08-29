@@ -6,7 +6,6 @@ from src.spotify.exceptions import SpotifyAPIUnsuccessfulRequestException
 
 
 
-
 class BaseClient:
 	BASE_URL = 'https://api.spotify.com/v1'
 

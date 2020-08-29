@@ -40,11 +40,11 @@ def test_get_playlist_raises_exception_correctly(mocked_requests):
 
 def test_token_client_has_correct_setup():
 	client = TokenClient('client', 'secret')
-	expected_encoded_client = base64.b64encode('client:secret'.encode('ascii'))
+	expected_encoded_client = base64.b64encode('client:secret'.encode()).decode()
 
 	assert client.client_id == 'client'
 	assert client.client_secret == 'secret'
-	assert client.url == 'https://accounts.spotify.com/token'
+	assert client.url == 'https://accounts.spotify.com/api/token'
 	assert client.encoded_client == expected_encoded_client
 	assert client.header == {
 		'Authorization': f'Basic {expected_encoded_client}',

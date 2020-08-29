@@ -7,11 +7,11 @@ def get_playlist(client_id, client_secret, playlist_id):
 	token = auth_client.post()['access_token']
 
 	playlist_client = PlaylistClient()
-	playlist = playlist_client.get(playlist_id, token)
+	playlist = playlist_client.get(playlist_id, token)['tracks']
 	tracks = []
 
 	while True:
-		tracks += [TrackFactory.create(item['track']) for item in playlist['tracks']['items']]
+		tracks += [TrackFactory.create(item['track']) for item in playlist['items']]
 		
 		next_page = playlist['next']
 		if not next_page: break

@@ -1,26 +1,15 @@
-from src.spotify.factories import PlaylistFactory
+from src.spotify.factories import TrackFactory
 
 def test_parse_playlist_correctly():
-	data = {
-		'name': 'frita que passa',
-		'tracks': {
-			'items': [{
-				'track': {
-					'artists': [{
-						'name': 'Lady Gaga',
-					}],
-					'name': 'Poker Face',
-				},
-			}]
-		}
+	data = {'artists': [{
+			'name': 'Lady Gaga',
+		}],
+		'name': 'Poker Face',
 	}
 
-	playlist = PlaylistFactory.create(data)
+	playlist = TrackFactory.create(data)
 
-	assert len(playlist.tracks) == 1
-	assert playlist.name == 'frita que passa'
+	assert len(playlist.artists) == 1
+	assert playlist.name == 'Poker Face'
 
-	assert len(playlist.tracks[0].artists) == 1
-	assert playlist.tracks[0].name == 'Poker Face'
-
-	assert playlist.tracks[0].artists[0].name == 'Lady Gaga'
+	assert playlist.artists[0].name == 'Lady Gaga'

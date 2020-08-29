@@ -10,8 +10,10 @@ def test_get_playlist_successfully(mocked_token_client, mocked_playlist_client, 
 	expected = {'Liquorice': 'Tell me if you like your lady in my-my color. Can I be your type? yeah'}
 	token_response = {'access_token': 'token'}
 	playlist_response = {
-		'tracks': {'items': [{'track': 'list'}]}, 
-		'next': None
+		'tracks': {
+			'items': [{'track': 'list'}], 
+			'next': None
+		}
 	}
 
 	mocked_token_client().post.return_value = token_response
@@ -36,10 +38,12 @@ def test_get_playlist_with_next_page_successfully(mocked_token_client, mocked_pl
 	]
 	token_response = {'access_token': 'token'}
 	playlist_response = [{
-		'tracks': {'items': [{'track': 'list'}]}, 
-		'next': 'next_page'
+		'tracks': {
+			'items': [{'track': 'list'}], 
+			'next': 'next_page'
+		},
 	}, {
-		'tracks': {'items': [{'track': 'list'}]}, 
+		'items': [{'track': 'list'}],
 		'next': None
 	}]
 
@@ -55,5 +59,5 @@ def test_get_playlist_with_next_page_successfully(mocked_token_client, mocked_pl
 	mocked_playlist_client().get.assert_called_once_with('playlist', 'token')
 	mocked_factory.create.assert_has_calls([
 		call(playlist_response[0]['tracks']['items'][0]['track']), 
-		call(playlist_response[1]['tracks']['items'][0]['track'])
+		call(playlist_response[1]['items'][0]['track'])
 	])

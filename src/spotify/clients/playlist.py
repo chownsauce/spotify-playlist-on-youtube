@@ -5,6 +5,8 @@ from requests.status_codes import codes as http_status_code
 from src.spotify.exceptions import SpotifyAPIUnsuccessfulRequestException
 
 
+
+
 class BaseClient:
 	BASE_URL = 'https://api.spotify.com/v1'
 

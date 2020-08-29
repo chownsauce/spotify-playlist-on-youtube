@@ -1,3 +1,4 @@
 bpython==0.19
 ipdb==0.13.3
 pytest==6.0.1
+requests==2.24.0

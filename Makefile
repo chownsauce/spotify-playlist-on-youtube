@@ -1,6 +1,6 @@
-include config.env
+include env
 
-$(eval export $(shell sed 's/=.*//' config.env))
+$(eval export $(shell sed 's/=.*//' env))
 
 
 all: 

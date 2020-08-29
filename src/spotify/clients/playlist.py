@@ -18,9 +18,12 @@ class PlaylistClient(BaseClient):
 	def url(self):
 		return f'{self.BASE_URL}{self.PATH}'
 
-	def get(self, playlist_id):
+	def get(self, playlist_id, token):
 		url = f'{self.url}/{playlist_id}'
-		response = requests.get(url)
+		header = {
+			'Authorization': f'Bearer {token}'
+		}
+		response = requests.get(url, headers=header)
 		if response.status_code !=  http_status_code.OK:
 			raise SpotifyAPIUnsuccessfulRequestException(
 				f'Spotify API Error: {response.status_code} - {response.json()}')

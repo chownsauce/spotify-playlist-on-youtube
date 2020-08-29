@@ -23,10 +23,11 @@ def test_get_playlist_successfully(mocked_requests):
 	mocked_requests.get.return_value = response
 
 	client = PlaylistClient()
-	result = client.get('id')
+	result = client.get('id', 'token')
 
 	assert result == expected
-	mocked_requests.get.assert_called_once_with(f'{client.url}/id')
+	mocked_requests.get.assert_called_once_with(
+		f'{client.url}/id', headers={'Authorization': 'Bearer token'})
 
 @patch('src.spotify.clients.playlist.requests')
 def test_get_playlist_raises_exception_correctly(mocked_requests):
@@ -34,7 +35,7 @@ def test_get_playlist_raises_exception_correctly(mocked_requests):
 
 	client = PlaylistClient()
 	with pytest.raises(SpotifyAPIUnsuccessfulRequestException):
-		client.get('id')
+		client.get('id', 'token')
 
 
 def test_token_client_has_correct_setup():

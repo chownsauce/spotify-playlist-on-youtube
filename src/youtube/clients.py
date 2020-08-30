@@ -9,25 +9,48 @@ from src.youtube.exceptions import YouTubeAPIUnsuccessfulRequestException
 class BaseClient:
 	BASE_URL = 'https://www.googleapis.com/youtube/v3'
 
-
-class PlaylistClient(BaseClient):
-	BASE_PATH = '/playlists'
+	def __init__(self, auth_token):
+		self.auth_token = auth_token
 
 	@property
-	def url(self):
-		return f'{self.BASE_URL}{self.BASE_PATH}?part=snippet&alt=json'
+	def header(self):
+		return {'Authorization': f'Bearer {self.auth_token}'}
 
-	def post(self, playlist_name, auth_token):
-		header = {'Authorization': f'Bearer {auth_token}'}
-		body = {
-			'snippet': {
-				'title': playlist_name
-			}
-		}
-		response = requests.post(self.url, headers=header, json=body)
+	def post(self, url, *args, **kwargs):
+		response = requests.post(url, **kwargs)
 		
 		if response.status_code !=  http_status_code.OK:
 			raise YouTubeAPIUnsuccessfulRequestException(
 				f'Youtube API Error: {response.status_code} - {response.json()}')
 
 		return response.json()
+
+
+class PlaylistClient(BaseClient):
+
+	def get_url(self, base_path):
+		return f'{self.BASE_URL}{base_path}?part=snippet&alt=json'
+
+	def create(self, playlist_name):
+		base_path = '/playlists'
+		body = {
+			'snippet': {
+				'title': playlist_name,
+				'description': 'Playlist created with spotify-playlist-on-youtube'
+			}
+		}
+		return self.post(
+			self.get_url(base_path), headers=self.header, json=body)
+
+	def add_video(self, playlist_id, video_id):
+		base_path = '/playlistItems'
+		body = {
+			'snippet': {
+				'playlistId': playlist_id,
+				'resourceId': {
+					'videoId': video_id
+				}
+			}
+		}
+		return self.post(
+			self.get_url(base_path), headers=self.header, json=body)

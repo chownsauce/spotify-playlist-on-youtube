@@ -20,5 +20,7 @@ def run():
 
 	create_playlist(Config.YOUTUBE_EMAIL, Config.YOUTUBE_PASSWORD, playlist.name, search_query)
 
+	print('items exportados:')
+	print(search_query)
+	print('musica pra carai ein bixo')
 	print('Aee carai! Pode fritar agora sua doida!')
-	

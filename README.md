@@ -15,3 +15,7 @@ Run the makefile
 '''
 make
 '''
+
+Create Spotify API Key
+
+Install webdriver

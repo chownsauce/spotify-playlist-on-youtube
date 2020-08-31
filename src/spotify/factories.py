@@ -19,3 +19,10 @@ class TrackFactory:
 	def create(cls, data):
 		artists = [ArtistFactory.create(item) for item in data['artists']]
 		return Track(data['name'], artists)
+
+	
+class PlaylistFactory:
+
+	@classmethod
+	def create(cls, data, tracks):
+		return Playlist(data['name'], tracks)

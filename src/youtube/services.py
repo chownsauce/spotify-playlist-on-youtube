@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from src.youtube.clients import PlaylistClient
 from src.youtube.factories import VideoFactory
 
 
@@ -40,6 +39,8 @@ def create_playlist(email, password, playlist_name, search_items):
 	login_in_youtube(browser, email, password)
 
 	for item in search_items:
+		print('Importando {item}(essa é da boa) - https://www.youtube.com/results?search_query={item}')
+
 		browser.driver.get(f'https://www.youtube.com/results?search_query={item}')
 		browser.wait.until(
 			EC.visibility_of_element_located((By.ID, 'video-title'))).click()

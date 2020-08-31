@@ -39,7 +39,7 @@ def create_playlist(email, password, playlist_name, search_items):
 	login_in_youtube(browser, email, password)
 
 	for item in search_items:
-		print('Importando {item}(essa é da boa) - https://www.youtube.com/results?search_query={item}')
+		print(f'Importando {item}(essa é da boa) - https://www.youtube.com/results?search_query={item}')
 
 		browser.driver.get(f'https://www.youtube.com/results?search_query={item}')
 		browser.wait.until(

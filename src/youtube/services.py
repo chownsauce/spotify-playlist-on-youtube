@@ -1,3 +1,5 @@
+import re
+
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -35,6 +37,7 @@ def login_in_youtube(browser, email, password):
 
 
 def create_playlist(email, password, playlist_name, search_items):
+	playlist_name = re.sub('[^A-Za-z0-9]+', '', playlist_name)
 	browser = Browser()
 	login_in_youtube(browser, email, password)
 

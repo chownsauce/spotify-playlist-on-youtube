@@ -17,7 +17,7 @@ Create a env file like the sample.env
 ```
 mv sample.env env
 ```
-Fill the variables with your data.
+Fill the variables from _env_ file with your data.
 
 ## Run
 ```

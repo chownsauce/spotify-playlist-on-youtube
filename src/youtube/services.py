@@ -41,7 +41,11 @@ def create_playlist(email, password, playlist_name, search_items):
 	for item in search_items:
 		browser.driver.get(f'https://www.youtube.com/results?search_query={item}')
 		browser.wait.until(
-			EC.visibility_of_element_located((By.ID, 'video-title'))).click()
+			EC.visibility_of_element_located((
+				By.XPATH, 
+				'//*[contains(@id, "video-title") and not(contains(@class, "ytd-promoted-video-renderer"))]'
+			))
+		).click()
 		
 
 		save_button = browser.wait.until(

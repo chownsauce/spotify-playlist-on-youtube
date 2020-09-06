@@ -1,5 +1,5 @@
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,7 +11,7 @@ class Browser:
 
 	def __init__(self):
 		self.driver = webdriver.Chrome()
-		self.wait = WebDriverWait(self.driver, 15)
+		self.wait = WebDriverWait(self.driver, 60)
 
 
 def login_in_youtube(browser, email, password):
@@ -49,20 +49,25 @@ def create_playlist(email, password, playlist_name, search_items):
 		)
 		save_button.click()
 		
-		try :
-			browser.wait.until(
-				EC.visibility_of_element_located((By.XPATH, '//yt-formatted-string[contains(text(), "AUTOPLAYLIST")]'))
-			).click()
+		try:
+			button_add = browser.wait.until(
+				EC.visibility_of_element_located((By.XPATH, f'//yt-formatted-string[contains(text(), "AUTOPLAYLIST - {playlist_name}")]'))
+			)
+			checked = button_add.find_element_by_xpath('..//..//..//..').get_attribute('aria-checked') == 'true'
+			if not checked:
+				button_add.click()
 		except TimeoutException:
-			browser.driver.find_element_by_xpath('//yt-formatted-string[contains(text(), "Create new")]').click()
+			try:
+				browser.driver.find_element_by_xpath('//yt-formatted-string[contains(text(), "Create new")]').click()
+				playlist_input = browser.wait.until(
+					EC.visibility_of_element_located((By.XPATH, '//input[@placeholder="Enter playlist name..."]')))
+				playlist_input.send_keys(f'AUTOPLAYLIST - {playlist_name}')
 
-			playlist_input = browser.wait.until(
-				EC.visibility_of_element_located((By.XPATH, '//input[@placeholder="Enter playlist name..."]')))
-			playlist_input.send_keys(f'AUTOPLAYLIST - {playlist_name}')
-
-			browser.driver.implicitly_wait(5)
-			browser.driver.find_element_by_xpath('//a//paper-button[@aria-label="Create"]').click()
+				browser.driver.implicitly_wait(5)
+				browser.driver.find_element_by_xpath('//a//paper-button[@aria-label="Create"]').click()
+			except NoSuchElementException:
+				print(f'Não foi possível importar a música {item} :( Uma pena... Tão boa...')
 		
-			browser.driver.implicitly_wait(5)
+		browser.driver.implicitly_wait(5)
 
 	browser.driver.close()

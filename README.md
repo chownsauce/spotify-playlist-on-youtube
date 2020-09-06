@@ -8,18 +8,18 @@
 
 ## Install
 First, install the script requirements:
-'''
+```
 pip install -r requirements/dev.txt
-'''
+```
 
 So, create a _env_ file like the sample.env. The _env_ file must be have all variables from sample.env.
 Create a env file like the sample.env
-'''
+```
 mv sample.env env
-'''
+```
 Fill the variables with your data.
 
 ## Run
-'''
+```
 make
-'''
+```
